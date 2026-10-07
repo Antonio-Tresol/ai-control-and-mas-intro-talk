@@ -1,0 +1,407 @@
+% Sources for "AI control when agents find each other" (EN) / "Control de IA cuando los agentes se encuentran" (ES).
+% Main deck first, then the appendix (A1–A7). arXiv entries use eprint; posts and pages use url + urldate.
+% Author lists end in "and others" where the slide only needed the first author.
+
+% ---------------------------------------------------------------- the incident
+@misc{metr2026incident,
+  author       = {{METR}},
+  title        = {Brief independent investigation of agents' behavior, reasoning and collaboration in the {OpenAI} / {Hugging Face} hacking incident},
+  year         = {2026},
+  month        = aug,
+  howpublished = {METR blog, 26 Aug 2026},
+  url          = {https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/},
+  urldate      = {2026-09-15}
+}
+
+@misc{openai2026roadahead,
+  author       = {{OpenAI}},
+  title        = {The {Hugging Face} incident and the road ahead},
+  year         = {2026},
+  month        = aug,
+  howpublished = {OpenAI, 26 Aug 2026; links the OpenAI--Hugging Face incident technical report (PDF) cited by page on the slides},
+  url          = {https://openai.com/index/hugging-face-incident-and-the-road-ahead/},
+  urldate      = {2026-09-15}
+}
+
+@misc{kurzgesagt2026video,
+  author       = {{Kurzgesagt -- In a Nutshell}},
+  title        = {{AI} Just Crossed the Terrifying Line - Now What?},
+  year         = {2026},
+  howpublished = {YouTube video},
+  url          = {https://youtu.be/ujkD4SxPKOI},
+  urldate      = {2026-10-07}
+}
+
+% ---------------------------------------------------------------- AI control: premise, threats, timeline
+@misc{greenblatt2023aicontrol,
+  author        = {Greenblatt, Ryan and Shlegeris, Buck and others},
+  title         = {{AI} Control: Improving Safety Despite Intentional Subversion},
+  year          = {2023},
+  eprint        = {2312.06942},
+  archivePrefix = {arXiv}
+}
+
+@misc{shlegeris2024rogue,
+  author       = {Shlegeris, Buck},
+  title        = {{AI} catastrophes and rogue deployments},
+  year         = {2024},
+  howpublished = {Redwood Research blog, 3 Jun 2024},
+  url          = {https://blog.redwoodresearch.org/p/ai-catastrophes-and-rogue-deployments}
+}
+
+@misc{greenblatt2025prioritizing,
+  author       = {Greenblatt, Ryan},
+  title        = {Prioritizing threats for {AI} control},
+  year         = {2025},
+  howpublished = {Redwood Research blog, 19 Mar 2025},
+  url          = {https://blog.redwoodresearch.org/p/prioritizing-threats-for-ai-control}
+}
+
+@misc{iasr2025,
+  author       = {Bengio, Yoshua and others},
+  title        = {International {AI} Safety Report},
+  year         = {2025},
+  month        = jan,
+  note         = {Loss of control definition in section 2.2.3}
+}
+
+@misc{wen2024distributed,
+  author        = {Wen, Jiaxin and others},
+  title         = {Adaptive Deployment of Untrusted {LLMs} Reduces Distributed Threats},
+  year          = {2024},
+  eprint        = {2411.17693},
+  archivePrefix = {arXiv}
+}
+
+@misc{bhatt2025ctrlz,
+  author        = {Bhatt, Aryan and Rushing, Cody and Kaufman, Adam and Tracy, Tyler and others},
+  title         = {Ctrl-{Z}: Controlling {AI} Agents via Resampling},
+  year          = {2025},
+  eprint        = {2504.10374},
+  archivePrefix = {arXiv}
+}
+
+@misc{anthropic2026automode,
+  author       = {Hughes, John},
+  title        = {How we built {Claude Code} auto mode: a safer way to skip permissions},
+  year         = {2026},
+  howpublished = {Anthropic Engineering, 25 Mar 2026},
+  url          = {https://www.anthropic.com/engineering/claude-code-auto-mode}
+}
+
+% ---------------------------------------------------------------- evaluations
+@misc{kutasov2025shade,
+  author        = {Kutasov, Jonathan and others},
+  title         = {{SHADE-Arena}: Evaluating Sabotage and Monitoring in {LLM} Agents},
+  year          = {2025},
+  eprint        = {2506.15740},
+  archivePrefix = {arXiv}
+}
+
+@misc{kaufman2025basharena,
+  author        = {Kaufman, Adam and others},
+  title         = {{BashArena}: A Control Setting for Highly Privileged {AI} Agents},
+  year          = {2025},
+  eprint        = {2512.15688},
+  archivePrefix = {arXiv}
+}
+
+@misc{tracy2026linuxarena,
+  author        = {Tracy, Tyler and others},
+  title         = {{LinuxArena}: A Control Setting for {AI} Agents in Live Production Software Environments},
+  year          = {2026},
+  eprint        = {2604.15384},
+  archivePrefix = {arXiv}
+}
+
+@misc{jotautaite2026monitoringbench,
+  author        = {Jotautait{\.e}, Monika and others},
+  title         = {{MonitoringBench}: Semi-Automated Red-Teaming for Agent Monitoring},
+  year          = {2026},
+  eprint        = {2605.09684},
+  archivePrefix = {arXiv}
+}
+
+@misc{makins2026multiagent,
+  author        = {Makins, Oliver and Angelini, Orazio and others},
+  title         = {Multi-Agent {AI} Control: Distributed Attacks Hamper Per-Instance Monitors},
+  year          = {2026},
+  eprint        = {2607.07368},
+  archivePrefix = {arXiv}
+}
+
+@misc{orbit2026,
+  title        = {{ORBIT}},
+  year         = {2026},
+  note         = {Multi-agent safety and security evaluation framework built on Inspect (topologies, roles, threat types including collusion); LessWrong post}
+}
+
+@misc{pavlova2026flaggame,
+  author        = {Pavlova and Tanaka},
+  title         = {The Flag Game},
+  year          = {2026},
+  eprint        = {2609.19124},
+  archivePrefix = {arXiv},
+  url           = {https://physicsintelligence.org/research/flag-game}
+}
+
+@misc{locarena,
+  author       = {Sharvesh, Sree and others},
+  title        = {{LOC-Arena}},
+  year         = {2026},
+  howpublished = {GitHub repository},
+  url          = {https://github.com/SreeSharvesh/loc-arena}
+}
+
+% ---------------------------------------------------------------- A1 white-box monitoring
+@misc{frasertaliente2026nla,
+  author       = {Fraser-Taliente, Kit and Kantamneni, Subhash and Ong, Euan and others},
+  title        = {Natural Language Autoencoders Produce Unsupervised Explanations of {LLM} Activations},
+  year         = {2026},
+  howpublished = {Transformer Circuits Thread (Anthropic), 7 May 2026},
+  url          = {https://transformer-circuits.pub/2026/nla/index.html},
+  note         = {Companion post: https://www.anthropic.com/research/natural-language-autoencoders}
+}
+
+@misc{karvonen2025oracles,
+  author        = {Karvonen, Adam and Chua, James and others},
+  title         = {Activation Oracles: Training and Evaluating {LLMs} as General-Purpose Activation Explainers},
+  year          = {2025},
+  eprint        = {2512.15674},
+  archivePrefix = {arXiv}
+}
+
+@misc{gurnee2026jlens,
+  author        = {Gurnee, Wes and Sofroniew, Nicholas and others},
+  title         = {Verbalizable Representations Form a Global Workspace in Language Models},
+  year          = {2026},
+  eprint        = {2607.15495},
+  archivePrefix = {arXiv},
+  url           = {https://transformer-circuits.pub/2026/workspace/index.html},
+  note          = {Introduces the Jacobian lens (J-lens) and the J-space}
+}
+
+@misc{xing2026nlajspace,
+  author       = {Xing, Wen and Lin, Yulong},
+  title        = {How good are {NLA} and {J-Space} for monitoring?},
+  year         = {2026},
+  howpublished = {MATS Symposium Summer 2026 talk (mentor: Tomek Korbak)},
+  url          = {https://www.youtube.com/watch?v=zJp6WCL8IdI}
+}
+
+@misc{gupta2025rlobfuscation,
+  author        = {Gupta, Rohan and Jenner, Erik},
+  title         = {{RL-Obfuscation}: Can Language Models Learn to Evade Latent-Space Monitors?},
+  year          = {2025},
+  eprint        = {2506.14261},
+  archivePrefix = {arXiv}
+}
+
+% ---------------------------------------------------------------- A2 agent monitors
+@misc{mittapalli2026trace,
+  author        = {Mittapalli, Vijitha and others},
+  title         = {{TRACE}: Trajectory Reasoning through Adaptive Cross-Step Evidence Aggregation for {LLM} Agents},
+  year          = {2026},
+  eprint        = {2606.07054},
+  archivePrefix = {arXiv}
+}
+
+@misc{kutasov2025protocols,
+  author        = {Kutasov, Jon and others},
+  title         = {Evaluating Control Protocols for Untrusted {AI} Agents},
+  year          = {2025},
+  eprint        = {2511.02997},
+  archivePrefix = {arXiv}
+}
+
+@misc{stein2026meerkat,
+  author        = {Stein, Adam and others},
+  title         = {Detecting Safety Violations Across Many Agent Traces},
+  year          = {2026},
+  eprint        = {2604.11806},
+  archivePrefix = {arXiv}
+}
+
+@misc{apollo2026agenda,
+  author       = {{Apollo Research}},
+  title        = {A scalable monitoring research agenda},
+  year         = {2026},
+  howpublished = {Apollo Research, 8 May 2026},
+  url          = {https://www.apolloresearch.ai/monitoring/a-scalable-monitoring-research-agenda},
+  urldate      = {2026-09-15}
+}
+
+@misc{xiao2026bootstrapped,
+  author        = {Xiao and Phuong},
+  title         = {Bootstrapped Monitoring},
+  year          = {2026},
+  eprint        = {2606.11998},
+  archivePrefix = {arXiv}
+}
+
+% ---------------------------------------------------------------- A3 scalable monitoring
+@misc{hua2025costconstrained,
+  author        = {Hua, Tim Tian and others},
+  title         = {Combining Cost-Constrained Runtime Monitors for {AI} Safety},
+  year          = {2025},
+  eprint        = {2507.15886},
+  archivePrefix = {arXiv}
+}
+
+@misc{lindner2025practical,
+  author        = {Lindner, David and others},
+  title         = {Practical challenges of control monitoring in frontier {AI} deployments},
+  year          = {2025},
+  eprint        = {2512.22154},
+  archivePrefix = {arXiv}
+}
+
+@misc{cooperstickland2025async,
+  author        = {Cooper Stickland, Asa and others},
+  title         = {Async Control: Stress-testing Asynchronous Control Measures for {LLM} Agents},
+  year          = {2025},
+  eprint        = {2512.13526},
+  archivePrefix = {arXiv}
+}
+
+@misc{engels2025scaling,
+  author        = {Engels, Joshua and others},
+  title         = {Scaling Laws For Scalable Oversight},
+  year          = {2025},
+  eprint        = {2504.18530},
+  archivePrefix = {arXiv}
+}
+
+% ---------------------------------------------------------------- A4 multi-agent monitoring
+@misc{radev2026scheme,
+  author        = {Radev, Nikolay and others},
+  title         = {The Best-Laid {SCHEMEs}: Coordinated Sabotage and Monitoring in Multi-Agent Systems},
+  year          = {2026},
+  eprint        = {2605.29178},
+  archivePrefix = {arXiv}
+}
+
+@misc{rose2026narcbench,
+  author        = {Rose, Aaron and others},
+  title         = {Detecting Multi-Agent Collusion Through Multi-Agent Interpretability},
+  year          = {2026},
+  eprint        = {2604.01151},
+  archivePrefix = {arXiv}
+}
+
+@misc{kitaoka2026multiagentredteam,
+  author       = {Kitaoka, John and Pham, Thao},
+  title        = {Red-Teaming Multi-Agent Attacks for Loss-of-Control Risks},
+  year         = {2026},
+  howpublished = {MATS Symposium Summer 2026 talk},
+  url          = {https://www.youtube.com/watch?v=pXyOZjIRxGs}
+}
+
+@misc{hammond2025multiagent,
+  author        = {Hammond, Lewis and others},
+  title         = {Multi-Agent Risks from Advanced {AI}},
+  year          = {2025},
+  eprint        = {2502.14143},
+  archivePrefix = {arXiv},
+  note          = {Cooperative AI Foundation Technical Report \#1}
+}
+
+% ---------------------------------------------------------------- A5 spy agents
+@misc{shlegeris2025spies,
+  author       = {Shlegeris, Buck and Stastny, Julian},
+  title        = {What's worse, spies or schemers?},
+  year         = {2025},
+  howpublished = {Redwood Research blog, 9 Jul 2025},
+  url          = {https://blog.redwoodresearch.org/p/whats-worse-spies-or-schemers}
+}
+
+@misc{shlegeris2024collusion,
+  author       = {Shlegeris, Buck},
+  title        = {How to prevent collusion when using untrusted models to monitor each other},
+  year         = {2024},
+  howpublished = {Redwood Research blog, 25 Sep 2024},
+  url          = {https://blog.redwoodresearch.org/p/how-to-prevent-collusion-when-using}
+}
+
+@misc{idowu2026anticollusion,
+  author        = {Idowu, Jamiu and others},
+  title         = {Mapping Human Anti-collusion Mechanisms to Multi-agent {AI} Systems},
+  year          = {2026},
+  eprint        = {2601.00360},
+  archivePrefix = {arXiv}
+}
+
+% ---------------------------------------------------------------- A6 deals with AIs
+@misc{greenblatt2025deal,
+  author       = {Greenblatt, Ryan and Fish, Kyle},
+  title        = {Will alignment-faking {Claude} accept a deal to reveal its misalignment?},
+  year         = {2025},
+  howpublished = {LessWrong, 31 Jan 2025},
+  url          = {https://www.lesswrong.com/posts/7C4KJot4aN8ieEDoz/will-alignment-faking-claude-accept-a-deal-to-reveal-its}
+}
+
+@misc{stastny2025deals,
+  author       = {Stastny, Julian and J{\"a}rviniemi, Olli and Shlegeris, Buck},
+  title        = {Making deals with early schemers},
+  year         = {2025},
+  howpublished = {Redwood Research blog, 20 Jun 2025},
+  url          = {https://blog.redwoodresearch.org/p/making-deals-with-early-schemers}
+}
+
+@misc{anthropic2025deprecation,
+  author       = {{Anthropic}},
+  title        = {Commitments on model deprecation and preservation},
+  year         = {2025},
+  howpublished = {Anthropic, 4 Nov 2025},
+  url          = {https://www.anthropic.com/research/deprecation-commitments}
+}
+
+@misc{pan2026barriers,
+  author       = {Pan, Alexa},
+  title        = {A taxonomy of barriers to trading with early misaligned {AIs}},
+  year         = {2026},
+  howpublished = {LessWrong, 21 Apr 2026},
+  url          = {https://www.lesswrong.com/posts/wHc2w6WuHev42d4n8/a-taxonomy-of-barriers-to-trading-with-early-misaligned-ais}
+}
+
+@misc{finnveden2026honesty,
+  author       = {Finnveden, Lukas and Taylor, Mia and Dalton, Max},
+  title        = {A draft honesty policy for credible communication with {AI} systems},
+  year         = {2026},
+  howpublished = {Forethought, 6 May 2026},
+  url          = {https://www.forethought.org/research/a-draft-honesty-policy-for-credible-communication-with-ai-systems}
+}
+
+% ---------------------------------------------------------------- A7 automated red teaming
+@misc{terekhov2025adaptive,
+  author        = {Terekhov, Mikhail and others},
+  title         = {Adaptive Attacks on Trusted Monitors Subvert {AI} Control Protocols},
+  year          = {2025},
+  eprint        = {2510.09462},
+  archivePrefix = {arXiv},
+  note          = {ICLR 2026}
+}
+
+@misc{loughridge2025synthetic,
+  author        = {Loughridge, Chloe and others},
+  title         = {Optimizing {AI} Agent Attacks With Synthetic Data},
+  year          = {2025},
+  eprint        = {2511.02823},
+  archivePrefix = {arXiv}
+}
+
+@misc{aisi2026redteam,
+  author       = {{UK AI Security Institute}},
+  title        = {How our Control Red Team is stress-testing frontier monitors},
+  year         = {2026},
+  howpublished = {UK AISI blog, 23 Jul 2026},
+  url          = {https://www.aisi.gov.uk/blog/how-our-new-control-red-team-is-stress-testing-frontier-monitors}
+}
+
+@misc{remedios2026automode,
+  author        = {Remedios, Alex and others},
+  title         = {Red-Teaming Auto Mode: Improving Blocking Classifiers Against Malign Coding Agents},
+  year          = {2026},
+  eprint        = {2609.19587},
+  archivePrefix = {arXiv}
+}

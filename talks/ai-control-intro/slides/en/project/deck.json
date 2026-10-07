@@ -1,0 +1,73 @@
+{
+ "v": 4,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-10-06T23:00:21Z"
+ },
+ "lists": "css",
+ "title": "AI control when agents find each other",
+ "order": [
+  "cover",
+  "agenda",
+  "cold-open",
+  "incident-map",
+  "nobody-watching",
+  "strange-world",
+  "premise",
+  "threats",
+  "timeline",
+  "control-game",
+  "kill-chain",
+  "protocols",
+  "evals",
+  "one-agent",
+  "swarms",
+  "hidden-channels",
+  "flag-game",
+  "loc-arena",
+  "red-team-loop",
+  "closing",
+  "appendix",
+  "app-white-box",
+  "app-agent-monitors",
+  "app-scalable",
+  "app-multi-agent",
+  "app-spies",
+  "app-deals",
+  "app-auto-red-team"
+ ],
+ "sections": {
+  "s1": {
+   "description": "A strange world: the OpenAI–Hugging Face incident, told in full",
+   "start": "cover"
+  },
+  "s2": {
+   "description": "AI control: the premise, the young field and its tools, each mapped onto the incident",
+   "start": "premise"
+  },
+  "s3": {
+   "description": "The multi-agent gap: why monitors built for one agent break against swarms",
+   "start": "one-agent"
+  },
+  "s4": {
+   "description": "Our work: loc-arena and the red-team loop, then the callback",
+   "start": "loc-arena"
+  },
+  "s5": {
+   "description": "Appendix: seven open research directions, each with its drawing and sources",
+   "start": "appendix"
+  }
+ },
+ "cover": "cover",
+ "faces": {
+  "outfit": {
+   "family": "Outfit",
+   "href": "https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap"
+  },
+  "jetbrains-mono": {
+   "family": "JetBrains Mono",
+   "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap"
+  }
+ },
+ "designSystems": []
+}

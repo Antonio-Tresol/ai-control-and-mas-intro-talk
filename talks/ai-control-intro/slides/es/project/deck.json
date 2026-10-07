@@ -1,0 +1,73 @@
+{
+ "v": 4,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-10-07T00:37:23Z"
+ },
+ "lists": "css",
+ "title": "Control de IA cuando los agentes se encuentran",
+ "order": [
+  "cover",
+  "agenda",
+  "cold-open",
+  "incident-map",
+  "nobody-watching",
+  "strange-world",
+  "premise",
+  "threats",
+  "timeline",
+  "control-game",
+  "kill-chain",
+  "protocols",
+  "evals",
+  "one-agent",
+  "swarms",
+  "hidden-channels",
+  "flag-game",
+  "loc-arena",
+  "red-team-loop",
+  "closing",
+  "appendix",
+  "app-white-box",
+  "app-agent-monitors",
+  "app-scalable",
+  "app-multi-agent",
+  "app-spies",
+  "app-deals",
+  "app-auto-red-team"
+ ],
+ "sections": {
+  "s1": {
+   "description": "Un mundo extraño: el incidente de OpenAI y Hugging Face, contado completo",
+   "start": "cover"
+  },
+  "s2": {
+   "description": "Control de IA: la premisa, un campo joven y sus herramientas, cada una ligada al incidente",
+   "start": "premise"
+  },
+  "s3": {
+   "description": "La brecha multiagente: por qué los monitores de un solo agente fallan ante enjambres",
+   "start": "one-agent"
+  },
+  "s4": {
+   "description": "Nuestro trabajo: LOC-Arena y el ciclo del equipo rojo, y el cierre",
+   "start": "loc-arena"
+  },
+  "s5": {
+   "description": "Apéndice: siete direcciones de investigación abiertas, cada una con su dibujo y sus fuentes",
+   "start": "appendix"
+  }
+ },
+ "cover": "cover",
+ "faces": {
+  "outfit": {
+   "family": "Outfit",
+   "href": "https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap"
+  },
+  "jetbrains-mono": {
+   "family": "JetBrains Mono",
+   "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap"
+  }
+ },
+ "designSystems": []
+}

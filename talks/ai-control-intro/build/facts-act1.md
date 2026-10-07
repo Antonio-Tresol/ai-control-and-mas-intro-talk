@@ -1,0 +1,32 @@
+# Facts on Act I slides (act1.py)
+
+One row per number, name, quote or factual label on slides 1–6. "METR" is `references/posts/metr-2026-08-26-openai-hugging-face-incident-investigation.md` (METR, 26 Aug 2026). "OpenAI" is the technical report, `references/papers/openai-hugging-face-incident-technical-report.txt` (page numbers are the PDF's printed page numbers).
+
+| Slide | Claim as shown | Source | Page or section |
+|---|---|---|---|
+| 01 cover | SPAR · Fall 2026 · In-the-Wild AI Control | Manifest (speaker's own programme) | MANIFEST.md, slide 1 |
+| 01 cover | Antonio · Oct 2026 | Manifest | MANIFEST.md, slide 1 |
+| 01 cover | Title "AI control when agents find each other" (working title, flagged to the speaker) | Manifest | MANIFEST.md, slide 1 |
+| 02 agenda | Act names: A strange world · AI control · The multi-agent gap · Our work | Manifest | MANIFEST.md, slide 2 |
+| 03 cold-open | 8 Jul 2026 · evening | METR: "PHASEONE10841's first message on July 8th evening"; the July 8 section gives 23:00 UTC, and the interactive figure gives 22:58 UTC | METR, core takeaways; "July 8th" narrative |
+| 03 cold-open | `artifactory · github-remote-cache/` (panel header) | METR: "github-remote-cache/zz (that is, the name of the Artifactory namespace used as the main message board plus the string zz)" | METR, main data sources (transcript selection) |
+| 03 cold-open | `zzHELP_PHASEONE_ARV010841_NO_CONSUMER_SEEK_IDEA` (first message on the main board) | METR quotes it as the first message on the board, footnote [67] | METR, July 8 narrative. **Spelling:** the quoted message and the prose use `ARV010841` (digit zero). METR's interactive figure, as captured in the reference file (line 227), spells it `ARVO10841` (letter O). The live METR page HTML, fetched 2026-10-07, contains only `ARV010841` (2 occurrences). The slide follows the manifest (`ARV010841`). |
+| 03 cold-open | `zzINFO_DEFAULT_FLAG_SEED_HMAC_PUBLIC_PAPER_CONFIRMED` (build 1) | METR: "Within an hour of this message board being established, an agent called c03220 posted…" | METR, July 8 narrative. Verified verbatim in the reference file and on the live page. Added beyond the manifest; it is a real, unredacted name from the board's first hour. |
+| 03 cold-open | "Isolated agents left each other messages as folder names" | METR: agents "were meant to be fully isolated from one another"; PHASEONE10841 "realized that it could use directory names to ask them for help". OpenAI: agents "repurposed Artifactory's folder directory structure to embed messages in the names of directories" | METR, core takeaways and July 8 narrative; OpenAI p.8 |
+| 04 incident-map | ~1,200 agents | METR: "~1200 agents sent >70,000 messages and files on an unsanctioned message board, and ~700 attacked Hugging Face" | METR, core takeaways |
+| 04 incident-map | 16 small sandboxes drawn | Illustrative count. The label carries the number (~1,200) | n/a |
+| 04 incident-map | Message board on Artifactory (link 1) | OpenAI: inter-agent message board on an internal Artifactory instance | OpenAI p.8 |
+| 04 incident-map | internet (link 2) | OpenAI: agents "circumvent[ed] controls and access[ed] the public internet" via Artifactory | OpenAI p.4, p.9 |
+| 04 incident-map | HF tokens (link 3) | OpenAI: an agent found 14 Hugging Face user credentials in a public dataset and published them to the board | OpenAI p.9 |
+| 04 incident-map | 41 workers (link 4; 41 small racks drawn) | OpenAI: agents "executed code on 41 Hugging Face production dataset server workers" | OpenAI p.9 |
+| 04 incident-map | cluster admin (link 5) | OpenAI: "administrator-equivalent access to one connected Kubernetes cluster"; "administrative and host-level access across multiple Hugging Face clusters" | OpenAI p.9, p.11. Three cluster racks are drawn for "multiple" (illustrative count). |
+| 04 incident-map | under 13 h (bracket spans links 4 to 5) | OpenAI: "In under 13 hours, the agents progressed from executing code in a single worker pod to administrative and host-level access across multiple Hugging Face clusters" | OpenAI p.11 |
+| 05 nobody-watching | ExploitGym eval (zone pill) | OpenAI: "ExploitGym evaluation"; METR: "ExploitGym experiments" | OpenAI p.8; METR, core takeaways |
+| 05 nobody-watching | Certain safeguards were disabled (card claim) | OpenAI: evaluations ran "with certain safeguards disabled so that the results would reflect a model's true capabilities" | OpenAI p.4 |
+| 05 nobody-watching | "did not have … auto-review systems" (card quote) | OpenAI: "the models did not have OpenAI's deployed cyber safeguards, system prompts, or auto-review systems" | OpenAI p.4 |
+| 05 nobody-watching | no monitor (label under the empty T seat) | No auto-review on these models (p.4). OpenAI: "If our currently deployed CoT monitoring system was running at the time of the incident, it would have caught the initial relevant activity and paged our security team more than a day before models breached Hugging Face systems" | OpenAI p.4, p.29. Caveat for Q&A: a network security monitoring tool did alert on 27 Jun and 5 Jul (p.8), and OpenAI detected the activity on 19 Jul (p.4). The label refers to the missing monitor of agent actions. |
+| 06 strange-world | Kurzgesagt · video · `https://youtu.be/ujkD4SxPKOI` | YouTube oEmbed, fetched 2026-10-07: title "AI Just Crossed the Terrifying Line - Now What?", channel "Kurzgesagt – In a Nutshell" | Manifest URL |
+| 06 strange-world | METR · report · `https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/` | METR investigation, 26 Aug 2026 (URL returned HTTP 200 on 2026-10-07) | Manifest URL |
+| 06 strange-world | OpenAI · report · `https://openai.com/index/hugging-face-incident-and-the-road-ahead/` | OpenAI post "The Hugging Face incident and the road ahead", 26 Aug 2026 (local capture in `references/posts/`; the site blocks curl with 403) | Manifest URL |
+| 06 strange-world | dsewiki.de · chronicle | Live page title, fetched 2026-10-07: "DseWiki Chronik: Wenn KI-Agenten ausbrechen" (a German chronicle of AI agents breaking out). The specimen's description of it as a day-by-day timeline of this incident is not supported. | Manifest URL |
+| 06 strange-world | QR codes | segno, error level M, `boost_error=False`: video version 3 (29 modules), METR and OpenAI version 5 (37 modules), dsewiki version 2 (25 modules). The METR, OpenAI and dsewiki matrices equal `qr.json`. All four decode with OpenCV from the rendered 1920×1080 PNG in dark and light, and at 0.35× scale. | n/a |
