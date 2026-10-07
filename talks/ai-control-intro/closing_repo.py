@@ -1,7 +1,7 @@
 """Closing slide: a second QR, to the talk repository, beside the SPAR project QR (both 320 px).
 
-The repo URL is encoded in upper case so it fits QR alphanumeric mode (version 4 at level M,
-the same size as the SPAR code); GitHub resolves the upper-case path.
+The repo URL is encoded as typed (byte mode, version 5 at level M): the upper-case alphanumeric
+version is smaller but OpenCV's decoder failed on it, so the plain URL is the safer code.
 
 usage: uv run --with segno python3 closing_repo.py <EN closing.html> <ES closing.html>
 """
@@ -29,7 +29,7 @@ def pill(text, left):
 
 
 def qr_svg(aria, size=600, quiet=4):
-    q = segno.make(REPO.upper(), error='m', boost_error=False)
+    q = segno.make(REPO, error='m', boost_error=False)
     m = [[1 if c else 0 for c in row] for row in q.matrix]
     n = len(m)
     u = size / (n + 2 * quiet)
@@ -50,6 +50,17 @@ def qr_svg(aria, size=600, quiet=4):
             f'<path d="{"".join(d)}" fill="#0B1026" shape-rendering="crispEdges"/></svg>'), q.version, q.mode
 
 
+def requr(path, lang):
+    """Swap an existing repo QR for a freshly encoded one (same position and size)."""
+    t = TEXT[lang]
+    s = open(path, encoding='utf-8').read()
+    s, n = re.subn(r'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="' + re.escape(t['aria'])
+                   + r'".*?</svg>', lambda m: qr_svg(t['aria'])[0], s, flags=re.S)
+    assert n == 1, n
+    open(path, 'w', encoding='utf-8').write(s)
+    print(lang, 'repo QR re-encoded, version', qr_svg('')[1], qr_svg('')[2])
+
+
 def rewrite(path, lang):
     t = TEXT[lang]
     s = open(path, encoding='utf-8').read()
@@ -66,5 +77,8 @@ def rewrite(path, lang):
     print(lang, 'ok, repo QR version', version, mode)
 
 
-rewrite(sys.argv[1], 'en')
-rewrite(sys.argv[2], 'es')
+if __name__ == '__main__':
+    fn = requr if '--requr' in sys.argv else rewrite
+    args = [a for a in sys.argv[1:] if a != '--requr']
+    fn(args[0], 'en')
+    fn(args[1], 'es')
