@@ -81,6 +81,7 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);overflow:hi
 section *{margin:0;box-sizing:border-box}
 section aside{display:none}
 #deck [data-build-in]{opacity:0;transition:opacity .4s ease}
+#deck iframe{pointer-events:none}
 #deck [data-build-in].shown{opacity:1}
 #bar{position:fixed;left:50%;bottom:16px;z-index:10;display:flex;align-items:center;gap:2px;padding:6px;transform:translateX(-50%);background:var(--panel);border:1px solid var(--line);border-radius:999px;box-shadow:0 8px 32px rgba(0,0,0,.45);backdrop-filter:blur(8px);transition:opacity .3s ease}
 body.idle #bar{opacity:0;pointer-events:none}
@@ -107,6 +108,7 @@ body.notes-open #stage{right:0;bottom:46vh}
 #bar button,#bar a{min-width:36px;padding:0 6px}
 #count{min-width:60px}
 }
+@media (max-width:360px){#src,#bar .sep{display:none}}
 #grid{position:fixed;inset:0;z-index:20;display:none;overflow-y:auto;padding:28px 24px 64px;background:rgba(5,7,15,.97)}
 body.grid-open #grid{display:block}
 #grid header{display:flex;align-items:center;gap:16px;max-width:1440px;margin:0 auto 20px}
@@ -329,7 +331,7 @@ PAGE = '''<!doctype html>
 <button id="full-btn" type="button" aria-pressed="false" aria-label="{full}" title="{full} (F)">{icon_full}</button>
 <span class="sep"></span>
 <a id="lang" href="{other}" hreflang="{other_lang}" lang="{other_lang}" aria-label="{other_name}" title="{other_name}">{other_short}</a>
-<a href="{repo_url}" aria-label="{source}" title="{source}">{icon_source}</a>
+<a id="src" href="{repo_url}" aria-label="{source}" title="{source}">{icon_source}</a>
 </nav>
 <div id="progress"></div>
 <aside id="notes" aria-label="{notes}"><h2>{notes}</h2><h3 id="notes-title"></h3><p id="notes-text"></p></aside>
