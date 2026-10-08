@@ -1,8 +1,10 @@
 # AI control when agents find each other
 
 <p align="center">
-  <a href="docs/images/slides/deck-en.jpg"><img src="docs/images/slides/cover.jpg" width="100%" alt="Cover slide: AI control when agents find each other. One-eyed agents in many colours and shapes mill around a hexagonal message board while a single monitor on a stand watches one of them."></a>
+  <a href="https://antonio-tresol.github.io/ai-control-and-mas-intro-talk/"><img src="docs/images/slides/cover-en.jpg" width="100%" alt="Cover slide: AI control when agents find each other. One-eyed agents in many colours and shapes mill around a hexagonal message board while a single monitor on a stand watches one of them."></a>
 </p>
+
+<p align="center"><b><a href="https://antonio-tresol.github.io/ai-control-and-mas-intro-talk/">View the slides</a></b> · <a href="https://antonio-tresol.github.io/ai-control-and-mas-intro-talk/es/">Ver en español</a></p>
 
 Slides, drawing code, character art, sources and draft scripts for a 15-minute introduction to AI control and multi-agent systems, given in English and Spanish (*Control de IA cuando los agentes se encuentran*). The talk was prepared in the In-the-Wild AI Control project at [SPAR](https://sparai.org/projects/f26/rec8RybPH2kNV6qDa) (Fall 2026), mentored by Sree Sharvesh and Thao Pham.
 
@@ -19,7 +21,7 @@ The running example is the July 2026 OpenAI–Hugging Face incident, in which sa
   <img src="docs/images/slides/24-app-scalable.jpg" width="49%" alt="Appendix slide A3, How do you watch a thousand agents without stalling them: a cheap filter, a costly monitor and a human audit in a funnel, with auto mode false positives falling from 8.5% to 0.4%.">
 </p>
 
-All 28 slides on one page: [English](docs/images/slides/deck-en.jpg) · [Español](docs/images/slides/deck-es.jpg). To page through a deck in a browser, see [Previewing](#previewing).
+The [website](https://antonio-tresol.github.io/ai-control-and-mas-intro-talk/) shows each deck full screen with its build steps: → or Space moves forward, ← back, G shows all slides, N the speaker notes and sources, F full screen. A link like [`#11`](https://antonio-tresol.github.io/ai-control-and-mas-intro-talk/#11) opens one slide. All 28 slides on one page: [English](docs/images/slides/deck-en.jpg) · [Español](docs/images/slides/deck-es.jpg).
 
 ## Characters and icons
 
@@ -44,6 +46,7 @@ Each drawing comes as SVG and as a 512 px PNG, in an on-dark version and an outl
 | `sources.bib` | Every source cited on the slides, main deck and appendix |
 | `talks/ai-control-intro/slides/{en,es}/project/` | The decks as presented: `deck.json` (slide order and sections) and one `<section>` per slide in `slides/`, speaker notes in each slide's `<aside>` |
 | `talks/ai-control-intro/slides/preview.py` | Renders a deck into one HTML page (see [Previewing](#previewing)) |
+| `talks/ai-control-intro/slides/build_site.py` | Builds the website: a full-screen viewer per language, deployed by `.github/workflows/pages.yml` on every push to `main` |
 | `talks/ai-control-intro/script/` | Draft talk scripts, English and Spanish (`[click]` / `[clic]` marks a build step) |
 | `talks/ai-control-intro/build/` | The generator that drew the first version of the deck (`glyphs.py` holds every character and glyph, `gen.py` the slide helpers, `act*.py` the slides), plus `MANIFEST.md` and the facts tables used to check every number |
 | `talks/ai-control-intro/*.py` | Later edits applied to the published decks: the appendix (`appendix.py`), the closing-slide QR codes (`closing_repo.py`), animated embeds (`cover_embed.py`), the v2 look (`v2_transform.py`) and layout fixes |
@@ -64,7 +67,9 @@ cd talks/ai-control-intro/slides
 python3 preview.py en
 ```
 
-Open `preview-en.html` in a browser; `preview-en.html?solo=N` shows slide N alone at 1920×1080. To save slides as PNGs, as for the images in this README:
+Open `preview-en.html` in a browser; `preview-en.html?solo=N` shows slide N alone at 1920×1080.
+
+To save slides as PNGs, as for the images in this README:
 
 ```bash
 python3 screenshots.py en          # every slide
@@ -72,6 +77,13 @@ python3 screenshots.py es 1 4 7    # only these slides
 ```
 
 The PNGs land in `screenshots/`. The script finds Chrome, Chromium or Edge on macOS, Linux or Windows; if it finds none, set `CHROME` to the browser's path. The asset generators in `assets/` use the same helper, `tools/headless.py`.
+
+To build the website and serve it locally at <http://localhost:8000/>:
+
+```bash
+python3 build_site.py _site
+python3 -m http.server --directory _site 8000
+```
 
 ## Rebuilding
 
