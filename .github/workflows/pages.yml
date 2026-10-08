@@ -19,7 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: python3 talks/ai-control-intro/slides/build_site.py _site
+      - uses: astral-sh/setup-uv@v10.2.0
+      - run: uv run talks/ai-control-intro/slides/build_site.py _site
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

@@ -1,3 +1,7 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Three slide edits, applied to saved copies of both published decks (read them fresh first).
 
 1. threats: cards shortened; a build-step chain below them ends in loss of control
@@ -6,7 +10,7 @@
 3. closing: the repeated sparai.org line is gone, the QR is smaller, and orange agents
    roam along the top of the folder-name board (an <x-embed>, CSS animation only).
 
-usage: python3 slides_v3.py <EN deck root> <ES deck root> <EN thumb blob> <ES thumb blob>
+usage: uv run slides_v3.py <EN deck root> <ES deck root> <EN thumb blob> <ES thumb blob>
 """
 import os
 import re

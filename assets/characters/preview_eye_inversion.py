@@ -1,3 +1,7 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Side-by-side preview: current eye vs inverted eye (black outer eye, white inner disc).
 Writes eye-inversion-preview.html. Does not change the asset pack."""
 import make_characters as C

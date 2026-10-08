@@ -1,3 +1,7 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """The whole deck in dark sketch and dark clean, side by side. Writes ../compare-deck.html."""
 import json
 import os

@@ -1,9 +1,13 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Appendix: seven open research directions, one slide each, plus a signpost divider.
 
 Every slide has its own drawing (built from the deck's glyphs, clean look), two sourced findings
 and a sources strip; full references sit in the speaker notes and in sources.bib.
 
-usage: python3 appendix.py <EN deck root> <ES deck root>
+usage: uv run appendix.py <EN deck root> <ES deck root>
        (each root holds project/deck.json and project/slides/, as saved from the Slides artifact)
 """
 import json

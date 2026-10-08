@@ -1,3 +1,7 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 import re, sys
 html=open(sys.argv[1] if len(sys.argv)>1 else '../specimen.html').read()
 html=re.sub(r'<aside>.*?</aside>', '', html, flags=re.S)  # speaker notes are not slide content

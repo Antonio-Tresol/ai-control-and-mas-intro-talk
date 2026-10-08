@@ -1,6 +1,10 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Assemble the deck's slide files into one preview page.
 
-Usage: python3 preview.py            -> out/preview.html with every slide in order.json
+Usage: uv run preview.py            -> out/preview.html with every slide in order.json
        open out/preview.html?solo=N  -> slide N alone at 1920x1080 (for headless screenshots)
 
 Slides live in out/project/slides/<id>.html, one <section> each, exactly as the Slides artifact

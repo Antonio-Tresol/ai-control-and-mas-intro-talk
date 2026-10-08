@@ -1,3 +1,7 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["segno"]
+# ///
 """Closing slide: QR to the SPAR project page instead of the repo, plus a credits line (mentors named, team described)."""
 import re
 import sys

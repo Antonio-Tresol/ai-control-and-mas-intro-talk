@@ -1,9 +1,13 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["segno"]
+# ///
 """Closing slide: a second QR, to the talk repository, beside the SPAR project QR (both 320 px).
 
 The repo URL is encoded as typed (byte mode, version 5 at level M): the upper-case alphanumeric
 version is smaller but OpenCV's decoder failed on it, so the plain URL is the safer code.
 
-usage: uv run --with segno python3 closing_repo.py <EN closing.html> <ES closing.html>
+usage: uv run closing_repo.py <EN closing.html> <ES closing.html>
 """
 import re
 import sys

@@ -1,6 +1,10 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Apply the v2 look to published slide files in place: black eyes with white centres, red attack colour.
 
-Usage: python3 v2_transform.py <folder with project/slides/*.html> ...
+Usage: uv run v2_transform.py <folder with project/slides/*.html> ...
 Edits only the agent eyes, the attack colour and the words that describe that colour.
 """
 import os

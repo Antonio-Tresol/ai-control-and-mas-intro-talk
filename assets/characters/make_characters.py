@@ -1,8 +1,12 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Character asset pack: one-eyed agents in many colours and shapes, plus the small monitor robot.
 
-Original designs (no traced or copied characters). Run:  python3 make_characters.py
+Original designs (no traced or copied characters). Run:  uv run make_characters.py
 Writes svg/on-dark/*.svg, svg/on-light/*.svg (same drawings with an ink outline for pale
-backgrounds) and index.html, a contact sheet of everything. PNG exports: python3 export_png.py
+backgrounds) and index.html, a contact sheet of everything. PNG exports: uv run export_png.py
 
 Every drawing sits in a 140 x 140 viewBox with transparent background, so assets line up
 when placed side by side. Colours come from RAMPS: body, shade (pins, feet, details), light

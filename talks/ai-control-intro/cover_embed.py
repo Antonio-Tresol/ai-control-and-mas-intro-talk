@@ -1,7 +1,11 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Cover hero as a live <x-embed>: agents in many colours and shapes (two glitching rogues) mill
 around the message board; folders flicker; one monitor still watches only the orange agent.
 
-usage: python3 cover_embed.py <cover.html> <en|es>
+usage: uv run cover_embed.py <cover.html> <en|es>
 """
 import math
 import os

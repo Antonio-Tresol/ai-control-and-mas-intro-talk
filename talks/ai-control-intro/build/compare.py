@@ -1,3 +1,7 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Render the specimen slides in four looks for the speaker to choose from:
 clean or sketch drawings, dark or light palette. Writes ../compare.html."""
 import os

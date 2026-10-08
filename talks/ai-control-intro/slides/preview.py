@@ -1,6 +1,10 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Render one deck's slide files into a single preview page.
 
-usage: python3 preview.py en|es      -> preview-<lang>.html next to this file
+usage: uv run preview.py en|es      -> preview-<lang>.html next to this file
        open preview-en.html?solo=N   -> slide N alone at 1920x1080 (for screenshots)
 
 Each slide is one <section> in the Slides artifact format, listed in <lang>/project/deck.json.

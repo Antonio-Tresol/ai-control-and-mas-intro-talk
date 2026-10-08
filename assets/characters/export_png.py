@@ -1,3 +1,7 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Export every SVG in svg/on-dark and svg/on-light to a 512 x 512 transparent PNG in png/.
 Uses headless Chrome, Chromium or Edge (tools/headless.py finds it; set CHROME to override)."""
 import os
@@ -7,7 +11,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, '..', '..', 'tools'))
 from headless import svg_to_png  # noqa: E402
 if len(sys.argv) > 1 and sys.argv[1] == 'v2':
-    HERE = os.path.join(HERE, 'v2')  # python3 export_png.py v2
+    HERE = os.path.join(HERE, 'v2')  # uv run export_png.py v2
 SIZE = 512
 
 for sub in ('on-dark', 'on-light'):

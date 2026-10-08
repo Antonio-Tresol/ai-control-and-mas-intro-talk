@@ -1,6 +1,10 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Screenshot slides at 1920x1080 with headless Chrome, Chromium or Edge (any OS).
 
-usage: python3 screenshots.py en|es [N ...]   -> screenshots/<lang>-NN.png, every slide or only slides N
+usage: uv run screenshots.py en|es [N ...]   -> screenshots/<lang>-NN.png, every slide or only slides N
 
 Writes the preview page first (preview.py), then shoots its ?solo=N view of each slide.
 Set CHROME to a browser binary if none is found.

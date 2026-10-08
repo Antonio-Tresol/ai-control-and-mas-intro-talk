@@ -1,7 +1,11 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Slide 6 without dsewiki: the thumbnail stays visible (left, with the video's code under it);
 METR and OpenAI codes on the right. The click brings up the three code cards.
 
-usage: python3 strange_world_n.py <slide file> <en|es>
+usage: uv run strange_world_n.py <slide file> <en|es>
 """
 import re
 import sys

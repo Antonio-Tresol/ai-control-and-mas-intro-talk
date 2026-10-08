@@ -1,9 +1,13 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """The talk's other icons as standalone assets, plus one app icon.
 
 Draws each glyph from the deck's generator (talks/ai-control-intro/build/glyphs.py) into its own
 SVG, in the dark look (svg/on-dark) and the light look with ink outlines (svg/on-light), then
 exports 512 px transparent PNGs (longest side 512) with headless Chrome, Chromium or Edge into png/.
-Run: python3 make_icons.py
+Run: uv run make_icons.py
 """
 import os
 import re
@@ -22,7 +26,7 @@ G.SKETCH_DEFAULT = False
 STYLE = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] in ('classic', 'v2') else 'classic'
 G.set_style(STYLE)
 C.configure(STYLE)
-OUT = os.path.join(HERE, 'v2') if STYLE == 'v2' else HERE  # python3 make_icons.py v2
+OUT = os.path.join(HERE, 'v2') if STYLE == 'v2' else HERE  # uv run make_icons.py v2
 
 
 def sandbox_breach(s, x=14, y=14, w=192, h=152, g0=62, g1=118):

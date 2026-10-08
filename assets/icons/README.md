@@ -16,11 +16,11 @@ The more cartoon-like agents in many colours and shapes, and the small monitor r
 Rebuild everything (needs Chrome, Chromium or Edge for the PNGs, found by `tools/headless.py`):
 
 ```bash
-python3 make_icons.py
+uv run make_icons.py
 ```
 
 The drawings come from the deck's generator in `talks/ai-control-intro/build/glyphs.py`, so they match the slides exactly.
 
 ## v2: black eyes, red attacks
 
-`v2/` holds the same 22 icons and the app icon in the look the talk now uses: agents with a black eye and a white centre, and red for everything attack-related (attack badge, side-task flag, kill-chain links). The top-level files keep the classic look. Rebuild with `python3 make_icons.py v2`.
+`v2/` holds the same 22 icons and the app icon in the look the talk now uses: agents with a black eye and a white centre, and red for everything attack-related (attack badge, side-task flag, kill-chain links). The top-level files keep the classic look. Rebuild with `uv run make_icons.py v2`.

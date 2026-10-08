@@ -1,7 +1,11 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Write every slide of the deck to out/project/slides/<id>.html in one look.
 
-Usage: python3 build_deck.py [dark|light] [sketch|clean] [module ...]
-Defaults: dark sketch, all act modules. Then: python3 preview.py
+Usage: uv run build_deck.py [dark|light] [sketch|clean] [module ...]
+Defaults: dark sketch, all act modules. Then: uv run preview.py
 Each act module defines SLIDES = [(slide_id, function), ...]; each function takes the token
 set T and returns one <section> string (gen.SECTION) whose id equals slide_id.
 """

@@ -1,6 +1,10 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Rogue-agent iterations and mixed swarms, built on make_characters.py.
 
-Run: python3 make_rogues_swarms.py
+Run: uv run make_rogues_swarms.py
 Writes svg/{on-dark,on-light}/rogue-*.svg and swarm-*.svg, PNGs in png/ (rogues 512 px,
 swarms 1200 px on the long side), and rogues-and-swarms.html, a contact sheet.
 """

@@ -1,3 +1,7 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 import re, sys
 LAYOUT = {  # credits, label, small QR, "About me", personal URL
     'en': dict(team='5 mentees, mostly AI software and security engineers', c=556, l=680, q=772),

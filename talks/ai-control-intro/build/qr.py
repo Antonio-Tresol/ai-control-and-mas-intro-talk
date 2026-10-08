@@ -1,3 +1,7 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["segno"]
+# ///
 import segno, json
 urls={'metr':'https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/',
       'openai':'https://openai.com/index/hugging-face-incident-and-the-road-ahead/',
