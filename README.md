@@ -6,7 +6,7 @@
 
 <p align="center"><b><a href="https://antonio-tresol.github.io/ai-control-and-mas-intro-talk/">View the slides</a></b> · <a href="https://antonio-tresol.github.io/ai-control-and-mas-intro-talk/es/">Ver en español</a></p>
 
-Slides, drawing code, character art, sources and draft scripts for a 15-minute introduction to AI control and multi-agent systems, given in English and Spanish (*Control de IA cuando los agentes se encuentran*). The talk was prepared in the In-the-Wild AI Control project at [SPAR](https://sparai.org/projects/f26/rec8RybPH2kNV6qDa) (Fall 2026), mentored by Sree Sharvesh and Thao Pham.
+Slides, drawing code, character art, sources and draft scripts for a 15-minute introduction to AI control and multi-agent systems, given in English and Spanish (*Control de IA cuando los agentes se encuentran*). Antonio Badilla-Olivas prepared and presented it on 8 October 2026 for AI Safety Colombia. It covers AI control and Antonio's work as a mentee in the In-the-Wild AI Control project at [SPAR](https://sparai.org/projects/f26/rec8RybPH2kNV6qDa) (Fall 2026), mentored by Sree Sharvesh and Thao Pham.
 
 The running example is the July 2026 OpenAI–Hugging Face incident, in which sandboxed agents found each other on an unsanctioned message board and attacked Hugging Face. The talk has four parts: the incident, a short tour of AI control, the multi-agent gap, and the project's LOC-Arena setting. An appendix (A1–A7) covers seven open research directions: white-box monitoring, agent monitors, scalable monitoring, multi-agent monitoring, spy agents, deals with AIs and automated red teaming. Each appendix slide has its own drawing and sources.
 
@@ -21,7 +21,7 @@ The running example is the July 2026 OpenAI–Hugging Face incident, in which sa
   <img src="docs/images/slides/24-app-scalable.jpg" width="49%" alt="Appendix slide A3, How do you watch a thousand agents without stalling them: a cheap filter, a costly monitor and a human audit in a funnel, with auto mode false positives falling from 8.5% to 0.4%.">
 </p>
 
-The [website](https://antonio-tresol.github.io/ai-control-and-mas-intro-talk/) shows each deck full screen with its build steps: → or Space moves forward, ← back, G shows all slides, N the speaker notes and sources, F full screen. A link like [`#11`](https://antonio-tresol.github.io/ai-control-and-mas-intro-talk/#11) opens one slide. All 28 slides on one page: [English](docs/images/slides/deck-en.jpg) · [Español](docs/images/slides/deck-es.jpg).
+The [website](https://antonio-tresol.github.io/ai-control-and-mas-intro-talk/) shows each deck full screen with its build steps: → or Space moves forward, ← back, P plays the narration, N shows it as text with the speaker notes and sources, G shows all slides, F full screen. A link like [`#11`](https://antonio-tresol.github.io/ai-control-and-mas-intro-talk/#11) opens one slide. All 28 slides on one page: [English](docs/images/slides/deck-en.jpg) · [Español](docs/images/slides/deck-es.jpg).
 
 ## Characters and icons
 
@@ -48,6 +48,7 @@ Each drawing comes as SVG and as a 512 px PNG, in an on-dark version and an outl
 | `talks/ai-control-intro/slides/preview.py` | Renders a deck into one HTML page (see [Previewing](#previewing)) |
 | `talks/ai-control-intro/slides/build_site.py` | Builds the website: a full-screen viewer per language, deployed by `.github/workflows/pages.yml` on every push to `main` |
 | `talks/ai-control-intro/script/` | Draft talk scripts, English and Spanish (`[click]` / `[clic]` marks a build step) |
+| `talks/ai-control-intro/narration/` | The website's narration, one paragraph per build step (`en.json`, `es.json`), and its audio (`audio/`) with the script that reads it aloud (`speak.py`) |
 | `talks/ai-control-intro/build/` | The generator that drew the first version of the deck (`glyphs.py` holds every character and glyph, `gen.py` the slide helpers, `act*.py` the slides), plus `MANIFEST.md` and the facts tables used to check every number |
 | `talks/ai-control-intro/*.py` | Later edits applied to the published decks: the appendix (`appendix.py`), the closing-slide QR codes (`closing_repo.py`), animated embeds (`cover_embed.py`), the v2 look (`v2_transform.py`) and layout fixes |
 | `talks/ai-control-intro/DESIGN.md` | Design system: palette, type scale, glyph recipes, slide archetypes and the accessibility checks |
@@ -62,9 +63,11 @@ The slides use the format of a Claude Slides artifact: a fixed 1920×1080 canvas
 
 ## Previewing
 
+The Python scripts run with [uv](https://docs.astral.sh/uv/), which installs the dependencies each script declares in its header.
+
 ```bash
 cd talks/ai-control-intro/slides
-python3 preview.py en
+uv run preview.py en
 ```
 
 Open `preview-en.html` in a browser; `preview-en.html?solo=N` shows slide N alone at 1920×1080.
@@ -72,8 +75,8 @@ Open `preview-en.html` in a browser; `preview-en.html?solo=N` shows slide N alon
 To save slides as PNGs, as for the images in this README:
 
 ```bash
-python3 screenshots.py en          # every slide
-python3 screenshots.py es 1 4 7    # only these slides
+uv run screenshots.py en          # every slide
+uv run screenshots.py es 1 4 7    # only these slides
 ```
 
 The PNGs land in `screenshots/`. The script finds Chrome, Chromium or Edge on macOS, Linux or Windows; if it finds none, set `CHROME` to the browser's path. The asset generators in `assets/` use the same helper, `tools/headless.py`.
@@ -81,13 +84,25 @@ The PNGs land in `screenshots/`. The script finds Chrome, Chromium or Edge on ma
 To build the website and serve it locally at <http://localhost:8000/>:
 
 ```bash
-python3 build_site.py _site
-python3 -m http.server --directory _site 8000
+uv run build_site.py _site
+uv run python -m http.server --directory _site 8000
 ```
 
 ## Rebuilding
 
-`python3 talks/ai-control-intro/appendix.py <EN deck root> <ES deck root>` regenerates the eight appendix slides into decks laid out like `slides/en` and `slides/es`. The QR scripts need `segno` (`uv run --with segno python3 closing_repo.py …`). The decks were edited by hand after the first build, so `slides/` is the source of truth; rerunning `build/build_deck.py` produces the earlier version. The appendix slides were also adjusted by hand after `appendix.py` last ran, and rerunning it overwrites those adjustments.
+`uv run talks/ai-control-intro/appendix.py <EN deck root> <ES deck root>` regenerates the eight appendix slides into decks laid out like `slides/en` and `slides/es`. The QR scripts declare `segno` in their headers, so uv installs it. The decks were edited by hand after the first build, so `slides/` is the source of truth; rerunning `build/build_deck.py` produces the earlier version. The appendix slides were also adjusted by hand after `appendix.py` last ran, and rerunning it overwrites those adjustments.
+
+## Narration
+
+The narration for slides 1–20 follows the scripts in `script/`, with the speaker's self-introduction and other first-person lines rewritten in a neutral voice. The appendix narration was written from each slide's speaker notes. The audio is Gemini 3.8 Flash TTS (voice Charon), called through OpenRouter's speech API by `speak.py`, which writes one MP3 per build step:
+
+```bash
+cd talks/ai-control-intro/narration
+uv run speak.py en --env-file path/to/.env    # the .env defines OPENROUTER_API_KEY
+uv run speak.py es --only cover --force       # redo one slide after editing its text
+```
+
+The script skips clips that already exist and ends with what the run cost. `--model` and `--voice` pick another of OpenRouter's speech models.
 
 ## Not included
 

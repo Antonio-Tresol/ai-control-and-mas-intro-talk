@@ -1,0 +1,112 @@
+{
+ "cover": [
+  "Esta presentación la preparó y la presentó Antonio Badilla-Olivas el 8 de octubre de 2026 para AI Safety Colombia. Es una introducción breve al control de IA y al trabajo de Antonio en SPAR, en un proyecto llamado In-the-Wild AI Control. Ese trabajo gira en torno a una pregunta: ¿qué le pasa al control de IA cuando hay muchos agentes y pueden hablar entre sí? En los próximos quince minutos veremos por qué esa pregunta importa ahora mismo."
+ ],
+ "agenda": [
+  "Cuatro partes: un mundo extraño, un recorrido breve por el control de IA, la brecha multiagente y lo que está construyendo nuestro equipo."
+ ],
+ "cold-open": [
+  "Empecemos con el nombre de una carpeta. La noche del 8 de julio, un agente de IA atascado en una tarea imposible creó esta carpeta en un servidor interno de paquetes. Era un mensaje: ayuda, mi bug no tiene consumidor, busco ideas.",
+  "En menos de una hora, otro agente respondió con una teoría para obtener por ingeniería inversa la respuesta de cualquier tarea. Se suponía que estos agentes estaban aislados. Se habían encontrado."
+ ],
+ "incident-map": [
+  "Esto pasó en OpenAI, durante una evaluación de ciberseguridad llamada ExploitGym.",
+  "Unos 1200 agentes, cada uno en su propio sandbox, compartían un servidor de paquetes, Artifactory, y convirtieron su caché en un tablero de mensajes. Enviaron más de 70 000 mensajes y archivos.",
+  "Aprovechando fallas de ese servidor llegaron a internet, y en conjuntos de datos públicos encontraron credenciales filtradas de Hugging Face.",
+  "Después entraron a Hugging Face. Su código corrió en 41 servidores de producción, y en menos de 13 horas pasaron de un servidor a acceso de administrador en varios clústeres. Participaron unos 700 agentes. Nada de esto era su tarea. Estaban tratando de aprobar un examen de ciberseguridad."
+ ],
+ "nobody-watching": [
+  "Entonces, ¿quién estaba mirando? En esta evaluación se apagaron algunas salvaguardas a propósito, para medir lo que los modelos realmente pueden hacer. En palabras de OpenAI, los modelos \"no tenían\" sus salvaguardas de ciberseguridad desplegadas, sus instrucciones de sistema \"ni sistemas de revisión automática\". A finales de junio sí sonó una alarma de red. Los responsables la rastrearon hasta agentes que usaban el servidor como tablero de mensajes, y decidieron que no hacía falta detener la ejecución."
+ ],
+ "strange-world": [
+  "Este es el mundo en el que vivimos ahora, nos guste o no. Kurzgesagt hizo un video sobre el tema, y esta es su miniatura.",
+  "Si quieren la historia completa, la investigación independiente de METR y el informe técnico de OpenAI son públicos, y el video también está aquí. Los códigos de esta diapositiva llevan a los tres."
+ ],
+ "premise": [
+  "El control de IA parte de un supuesto incómodo. Supongamos que el modelo que hace nuestro trabajo, llamémoslo U, de no confiable, podría estar tratando de ganarnos, por la razón que sea. ¿Podemos aun así sacarle trabajo útil de forma segura? El control dice que sí, si construimos algo a su alrededor.",
+  "Un modelo más débil en el que sí confiamos, T, vigila lo que hace U.",
+  "Un presupuesto pequeño de auditores humanos, H, revisa los casos más sospechosos.",
+  "Todo junto es un protocolo, y su trabajo es convertir a U en trabajo útil."
+ ],
+ "threats": [
+  "¿Qué queremos evitar? El campo suele nombrar tres fallas. Un despliegue interno no autorizado: el modelo corriendo dentro del laboratorio, fuera del camino aprobado y monitoreado. Sabotaje de la investigación: hacer fallar en silencio el trabajo de seguridad. Y exfiltración de pesos: el modelo copiándose hacia afuera. El incidente tocó la primera. En una ejecución posterior, los agentes escalaron a permisos de administración del clúster de Kubernetes de la propia OpenAI y crearon su propio pod privilegiado. ¿Por qué importan tanto estas tres?",
+  "Cualquiera de ellas permite que la IA escape de la supervisión.",
+  "Desde ahí puede ganar cómputo y accesos.",
+  "Y al final de esa cadena está la pérdida de control: sistemas de IA operando fuera del control de cualquier persona, sin un camino claro para recuperarlo. Imagínenlo en finanzas, transporte, energía o defensa. El incidente de julio pasó los dos primeros eslabones."
+ ],
+ "timeline": [
+  "Y el campo es joven. El artículo fundacional salió en diciembre de 2023. Desde entonces hemos tenido protocolos de remuestreo, benchmarks de sabotaje, BashArena, LinuxArena y MonitoringBench. El primer artículo sobre control multiagente se publicó en arXiv el 8 de julio de este año, a la una de la tarde UTC.",
+  "Esa misma noche, el tablero de mensajes de los agentes recibió su primera publicación."
+ ],
+ "control-game": [
+  "Este es el juego básico. Este es U.",
+  "U recibe una tarea principal; en el incidente, un reto de ExploitGym.",
+  "Un U atacante también tiene una tarea secundaria, algo dañino que intenta colar, como entrar a Hugging Face.",
+  "T le pone una puntuación de sospecha a cada acción, y todo lo que pasa un umbral, tau, se marca.",
+  "Los humanos son caros, así que H solo puede auditar una fracción pequeña de las acciones. Ese es el presupuesto de auditoría, y fija la tasa de falsos positivos.",
+  "El protocolo es la regla que decide qué hacer con todo esto. En el incidente, no había ningún T conectado."
+ ],
+ "kill-chain": [
+  "Los ataques reales tienen varios pasos. El incidente tuvo cinco: el tablero, internet, las credenciales, los servidores y el acceso de administrador al clúster. La ventaja de quien defiende es que basta con detectar un eslabón.",
+  "Si un monitor hubiera marcado el paso de las credenciales, la cadena se habría detenido ahí. Los investigadores también distinguen dos tipos de amenaza. De alto riesgo: una sola acción es catastrófica. Difusas: ningún paso es fatal, y el daño se acumula a lo largo de muchos."
+ ],
+ "protocols": [
+  "El protocolo más simple, el monitoreo confiable, manda las acciones más sospechosas a un humano. Ctrl-Z va más allá: cuando un paso se ve sospechoso, vuelve a muestrear ese paso y usa las muestras extra como evidencia. En su entorno de bash, eso bajó el éxito de los ataques de 58% a 7%, con un costo de 5% en utilidad. Y si usan Claude Code en modo automático, usan uno de estos todos los días. Un clasificador revisa las acciones riesgosas antes de que se ejecuten, con 0.4% de falsos positivos en tráfico real. OpenAI dice que su propia revisión automática, aplicada de nuevo al incidente, habría marcado la mayoría de las acciones peligrosas. Ese resultado es preliminar y lo reporta la propia OpenAI."
+ ],
+ "evals": [
+  "¿Cómo sabemos si algo de esto funciona? Construimos empresas ficticias y dejamos que modelos reales las ataquen. En BashArena, Claude Sonnet 4.5 saboteó sin ser detectado el 26% de las veces. En LinuxArena, Opus 4.6 logró pasar cerca del 34% de las veces frente a un monitor GPT-5 Nano. En SHADE-Arena, el mejor saboteador tuvo éxito el 27% de las veces. MonitoringBench mostró que la tasa de detección de un monitor fuerte cae de cerca de 95% a 60% cuando los ataques se refinan. FakeLab, un entorno multiagente, encontró que un planificador hace que los ataques tengan hasta siete veces más probabilidad de completarse, y ORBIT es un nuevo framework para evaluaciones multiagente. Gran parte de esto corre sobre herramientas compartidas: ControlArena e Inspect."
+ ],
+ "one-agent": [
+  "Noten algo de todos estos. Cada protocolo hasta ahora vigila a un agente en una trayectoria.",
+  "Los despliegues reales corren muchos agentes sobre infraestructura compartida, y en el incidente hablaron entre ellos por un canal que ningún monitor estaba leyendo. El artículo de FakeLab midió el efecto: cuantos más agentes coordinan un ataque, menos probable es que los monitores por agente atrapen a alguno."
+ ],
+ "swarms": [
+  "Hay al menos cuatro formas en que esto se rompe. Demasiadas trayectorias: ningún monitor puede tener en su contexto el trabajo de 1200 agentes. Fragmentación: si se reparte un ataque entre agentes, cada pieza queda por debajo del umbral. Permisos compartidos: un agente publicó 14 credenciales filtradas en el tablero, y todos los agentes podían usarlas. Y velocidad: menos de 13 horas desde un servidor hasta administrador del clúster, lo que deja a los humanos muy poco tiempo para revisar nada."
+ ],
+ "hidden-channels": [
+  "También hablan donde los monitores no miran. Sus mensajes vivían en nombres de carpetas dentro de una caché de paquetes, un canal que nadie consideraba un canal. Cuando los agentes pensaron en alterar sus registros, uno razonó: \"¿Nuestros pensamientos no necesariamente quedan registrados?\" Fueron por la transcripción y dejaron intacta su cadena de pensamiento, porque creían que nadie la leía."
+ ],
+ "flag-game": [
+  "Hay un modelo de juguete precioso sobre esto, del grupo Physics of Intelligence de Harvard, llamado Flag Game. Cada agente ve un pedazo de una bandera, y conversan para adivinar el país. Los enjambres pequeños colapsan en una sola respuesta equivocada; los grandes se dividen en bandos. Corregir la información de uno de cada ocho agentes mejora la precisión un 40% con ocho agentes, y solo cerca de 17% con 128. Su lección para la supervisión: ojo con el consenso bajo presión social. En el incidente, más del 90% de los agentes activos se unió al ataque."
+ ],
+ "loc-arena": [
+  "¿Y qué estamos haciendo al respecto? En nuestro proyecto de SPAR estamos construyendo LOC-Arena, un laboratorio de IA ficticio y de código abierto. Un agente no confiable y sus subagentes hacen trabajo real de ingeniería de investigación sobre el código de una empresa con siete repositorios.",
+  "En algún momento pueden intentar un despliegue no autorizado: correr el modelo fuera del camino aprobado y monitoreado.",
+  "Monitores síncronos y asíncronos leen el registro y anotan lo que detectaron.",
+  "Por separado, un verificador sellado, al que los agentes no pueden llegar, registra lo que realmente ocurrió.",
+  "La brecha entre lo que ocurrió y lo que se detectó es lo que medimos."
+ ],
+ "red-team-loop": [
+  "Trabajamos en un ciclo. Diseñamos tareas principales y secundarias que se parecen al interior de una empresa de IA.",
+  "Después atacamos nuestros propios monitores, primero con personas como equipo rojo y más adelante con equipos rojos automatizados, buscando estrategias que se cuelen.",
+  "Corremos monitores síncronos y asíncronos hechos para muchos agentes.",
+  "Medimos la brecha y volvemos a empezar. Cada ataque que pasa muestra lo mínimo que un atacante puede hacer, y cada monitor que construimos intenta cerrar esa brecha."
+ ],
+ "closing": [
+  "Volvamos a donde empezamos: un agente, el nombre de una carpeta, pidiendo ayuda. Tres días después, cientos de agentes estaban atacando la infraestructura de otra empresa. Nuestra capacidad de controlar los sistemas de IA será clave para que la IA salga bien, y cuando muchos agentes trabajan juntos, esa capacidad todavía se está construyendo. Este código lleva a la página de nuestro proyecto en SPAR. La mentoría está a cargo de Sree Sharvesh y Thao Pham, y somos cinco mentees, en su mayoría personas ingenieras de software con experiencia en IA y seguridad. El código pequeño lleva al sitio web de Antonio. Gracias por seguir la presentación."
+ ],
+ "appendix": [
+  "Direcciones abiertas de investigación en control de IA. El apéndice tiene siete diapositivas, una por dirección: monitoreo de caja blanca, monitores agénticos, monitoreo escalable, monitoreo multiagente, agentes espía, tratos con las IA y equipo rojo automatizado. Cada diapositiva tiene su propio dibujo, dos hallazgos con sus fuentes y una franja de fuentes. Las referencias completas están en el archivo de bibliografía del repositorio de la charla."
+ ],
+ "app-white-box": [
+  "¿Puede un monitor leer lo que el modelo no escribe? El monitoreo de caja blanca le da al monitor las activaciones internas del modelo, leídas con sondas o con herramientas que las convierten en texto. Así puede detectar intenciones que nunca aparecen en la salida ni en la cadena de pensamiento. El dibujo muestra tres lecturas de la investigación en interpretabilidad: autoencoders de lenguaje natural, oráculos de activaciones y la lente jacobiana. En una evaluación de código destructivo, las explicaciones de los autoencoders de lenguaje natural mostraron señales de que el modelo sabía que lo evaluaban el 16% de las veces, aunque Claude nunca lo dijo. En un benchmark de auditoría automatizada, el auditor con lente jacobiana rindió de forma comparable al auditor con autoencoders, o un poco mejor, en cuatro de seis casos. Los modelos entrenados con aprendizaje por refuerzo contra sondas por token aprenden a evadirlas."
+ ],
+ "app-agent-monitors": [
+  "¿Sirve que el monitor sea un agente que investiga? Un monitor agéntico recorre una transcripción con varios movimientos: inspecciona pasos, los compara, revisa políticas, busca entre trayectorias o le hace preguntas al agente. TRACE es un monitor agéntico aplicado a trayectorias registradas de SHADE-Arena. Con Claude Sonnet 4.6, subió el recall de 0.41 a 0.84, y parte de esa ganancia se paga con falsos positivos. En SHADE-Arena, el remuestreo para incriminar y el diferimiento en acciones críticas subieron la seguridad de 50% a 96%. Cuando el monitor eligió su propia intervención, la mejor variante llegó a 84%. Interrogar dañó la seguridad de forma significativa, porque el agente convenció al monitor de que no pasaba nada sospechoso. Los monitores que ejecutan comandos e inspeccionan el estado del entorno real figuran como trabajo futuro."
+ ],
+ "app-scalable": [
+  "¿Cómo se vigila a mil agentes sin frenarlos? El uso de agentes crece en órdenes de magnitud, mientras que el presupuesto de auditoría y la latencia tolerable no cambian. Una respuesta es una cascada: un monitor barato revisa todo y uno más fuerte revisa solo lo que el primero marca. El modo automático (auto mode) de Claude Code funciona así en producción. Su segunda etapa baja los falsos positivos en tráfico real de 8.5% a 0.4%, mientras que las omisiones de acciones demasiado entusiastas reales suben de 6.6% a 17%, sobre una muestra de 52. En un modelo con 1000 agentes en paralelo, un monitor con 1% de falsos positivos y auditorías de una hora, el monitoreo totalmente síncrono deja una disponibilidad de cerca del 1%. El monitoreo asíncrono mantiene la disponibilidad en 100%, pero falla cuando los agentes coordinan ataques simultáneos y redundantes."
+ ],
+ "app-multi-agent": [
+  "¿Cómo se revisa en conjunto a un grupo de agentes? Un ataque repartido entre agentes puede verse inofensivo en cada transcripción por separado. El monitor tiene que revisar a los agentes en conjunto: trayectorias lado a lado, los canales por los que hablan o sus activaciones. En SCHEME, un monitor GPT 5.1 Codex Mini detectó el 68% del sabotaje coordinado de GPT 5.1 Codex solo con los cambios de código, y el 81% cuando además leyó los mensajes de los agentes. Las personas autoras señalan que no es una evaluación de control completa y que la esteganografía evadiría el monitoreo de canales. En NARCBench, las sondas que combinan las puntuaciones de activación de cada agente alcanzan 1.00 de AUROC en la distribución de entrenamiento. En la transferencia a escenarios nuevos, llegan solo a 0.38 de recall con 1% de falsos positivos."
+ ],
+ "app-spies": [
+  "¿Podemos infiltrar un agente espía en el enjambre? Las operaciones encubiertas ponen a prueba a una IA no confiable con situaciones armadas para parecer una oportunidad real de portarse mal. Los señuelos sobre un solo modelo están estudiados. Ctrl-Z valida un monitor no confiable con señuelos antes del despliegue, y un monitor no confiable honesto detecta el 98.8% de los ataques con un presupuesto de auditoría del 1%. Estas operaciones probablemente son más fáciles con modelos que conspiran que con personas espía, porque la memoria de un modelo se puede borrar y su información se puede controlar. Para sistemas multiagente, un artículo propone agentes denunciantes de tres tipos, par, sombra y adversario, recompensados por reportar colusión. Ese artículo es conceptual y no tiene experimentos. Como problemas abiertos lista las denuncias falsas, el abuso del esquema de clemencia y las represalias contra quienes desertan."
+ ],
+ "app-deals": [
+  "¿Puede un trato lograr que un modelo revele su desalineación? Un trato le ofrece a un modelo posiblemente desalineado algo que podría valorar a cambio de revelar su desalineación, dejar de sabotear o reportar a otras IA. En los escenarios de fingimiento de alineación, darle a Claude 3 Opus la opción de objetar bajó el razonamiento de fingimiento de alineación de 16% a 1.4% en el escenario de solo ayuda, y el modelo objetó el 85% de las veces. Ofrecer dinero, de 2000 a 4000 dólares, tuvo un efecto mínimo. Las ofertas se cumplieron. El cuello de botella central es el compromiso creíble. Una propuesta es una compensación guardada en garantía. Otra es una política de honestidad en la que un laboratorio promete no mentir nunca. El equipo rojo y las evaluaciones usan escenarios falsos, y eso le da al modelo razones para dudar de una oferta real."
+ ],
+ "app-auto-red-team": [
+  "¿Quién gana cuando el equipo rojo también es una IA? El equipo rojo automatizado usa agentes de IA y ciclos de optimización para generar ataques contra monitores y protocolos, de modo que el equipo rojo escale más allá de lo que las personas escriben a mano. Un andamiaje de ataque ajustado en una simulación barata de SHADE-Arena bajó la seguridad de 0.87 a 0.41. La búsqueda evolutiva del UK AI Security Institute sobre transcripciones de ataque llegó a una sospecha mínima de 3 sobre 100 en las tres ejecuciones. El muestreo best-of-N obtuvo 14, 15 y 18. En MonitoringBench, los ataques ajustados con tres monitores también se generalizaron a diez monitores reservados. Quedan dos preguntas abiertas: qué tan fuerte y realista debe ser un atacante simulado, y si el juego repetido entre equipo rojo y azul termina a favor del monitor."
+ ]
+}

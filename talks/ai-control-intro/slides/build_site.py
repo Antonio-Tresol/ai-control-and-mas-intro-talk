@@ -1,10 +1,16 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Build the GitHub Pages site: a full-screen viewer for each deck.
 
-usage: python3 build_site.py <out dir>    -> <out>/index.html (English), <out>/es/index.html (Spanish)
+usage: uv run build_site.py <out dir>    -> <out>/index.html (English), <out>/es/index.html (Spanish)
 
 The viewer steps through each slide's builds as the live deck does. Keys: → or Space forward,
-← back, Home and End, G all slides, N speaker notes, F full screen, Esc closes a panel. The
-address holds the slide number (#12), so a link can open one slide. Uses only the standard library.
+← back, Home and End, P listen, N narration, G all slides, F full screen, Esc closes a panel.
+The narration panel shows ../narration/<lang>.json, one paragraph per build step, with the speaker
+notes and sources below; P plays ../narration/audio/<lang>/ step by step and moves on as each clip
+ends. The address holds the slide number (#12), so a link can open one slide. Standard library only.
 """
 import json
 import os
@@ -22,19 +28,24 @@ UI = {
     'en': dict(
         dir='', up='', other='es/', other_lang='es', other_short='ES', other_name='Español',
         description='A 15-minute introduction to AI control and multi-agent systems, built around the '
-                    'July 2026 OpenAI–Hugging Face incident. SPAR Fall 2026.',
-        controls='Slide controls', prev='Previous', next='Next', grid='All slides', notes='Speaker notes',
+                    'July 2026 OpenAI–Hugging Face incident. Presented by Antonio Badilla-Olivas for AI '
+                    'Safety Colombia on 8 October 2026.',
+        controls='Slide controls', prev='Previous', next='Next', grid='All slides', notes='Narration',
+        sources='Speaker notes and sources', listen='Listen', pause='Pause',
         full='Full screen', source='Source on GitHub', close='Close', slide='Slide', of='of',
-        help='← → or Space to move · G all slides · N notes · F full screen',
+        help='← → or Space to move · P listen · N narration · G all slides · F full screen',
         noscript='This viewer needs JavaScript. The slide files are in the', repo='repository'),
     'es': dict(
         dir='es/', up='../', other='../', other_lang='en', other_short='EN', other_name='English',
         description='Una introducción de 15 minutos al control de IA y los sistemas multiagente, a partir '
-                    'del incidente de OpenAI y Hugging Face de julio de 2026. SPAR, otoño de 2026.',
+                    'del incidente de OpenAI y Hugging Face de julio de 2026. Presentada por Antonio '
+                    'Badilla-Olivas para AI Safety Colombia el 8 de octubre de 2026.',
         controls='Controles de la presentación', prev='Anterior', next='Siguiente',
-        grid='Todas las diapositivas', notes='Notas de la charla', full='Pantalla completa',
+        grid='Todas las diapositivas', notes='Narración', sources='Notas y fuentes',
+        listen='Escuchar', pause='Pausar', full='Pantalla completa',
         source='Código en GitHub', close='Cerrar', slide='Diapositiva', of='de',
-        help='← → o espacio para avanzar · G todas las diapositivas · N notas · F pantalla completa',
+        help='← → o espacio para avanzar · P escuchar · N narración · G todas las diapositivas · '
+             'F pantalla completa',
         noscript='Este visor necesita JavaScript. Los archivos de las diapositivas están en el',
         repo='repositorio'),
 }
@@ -69,7 +80,11 @@ ICONS = dict(
     full=icon('<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>'),
     source=icon('<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/>'),
     close=icon('<path d="M6 6l12 12M18 6L6 18"/>'),
+    listen=icon('<path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="7" rx="1.5"/>'
+                '<rect x="17" y="14" width="4" height="7" rx="1.5"/>'),
+    pause=icon('<path d="M9 5v14M15 5v14"/>'),
 )
+NARRATION = os.path.join(ROOT, 'talks', 'ai-control-intro', 'narration')
 
 CSS = '''
 :root{--bg:#05070f;--panel:rgba(11,16,38,.92);--ink:#f2f0ff;--muted:#b8bee0;--line:#2a3366;--accent:#f4ab1a;--focus:#a1d8ff}
@@ -100,7 +115,12 @@ body.notes-open #notes{transform:none;visibility:visible;transition:transform .2
 body.notes-open #stage{right:min(440px,40vw)}
 #notes h2{margin:0 0 6px;font:600 13px/1.2 'JetBrains Mono',monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
 #notes h3{margin:0 0 16px;font:700 22px/1.25 Outfit,sans-serif}
-#notes-text{margin:0;font:400 17px/1.55 Outfit,sans-serif;color:#dcdaf5;white-space:pre-line}
+#narration p{margin:0 0 14px;font:400 18px/1.6 Outfit,sans-serif;color:#dcdaf5;transition:opacity .2s ease}
+#narration p.later{opacity:.45}
+#narration p.now{color:#fff;box-shadow:inset 3px 0 0 var(--accent);padding-left:12px}
+#sources{margin-top:22px;padding-top:14px;border-top:1px solid var(--line)}
+#sources summary{cursor:pointer;font:600 13px/1.2 'JetBrains Mono',monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+#notes-text{margin:12px 0 0;font:400 15px/1.55 Outfit,sans-serif;color:var(--muted);white-space:pre-line}
 @media (max-width:760px){
 #notes{top:auto;left:0;width:auto;height:46vh;border-left:0;border-top:1px solid var(--line);transform:translateY(100%)}
 body.notes-open #stage{right:0;bottom:46vh}
@@ -164,6 +184,14 @@ JS = '''
     const aside = slides[i].querySelector('aside');
     $('notes-title').textContent = `${i + 1}. ${titleOf(slides[i])}`;
     $('notes-text').textContent = aside ? aside.textContent.trim() : '';
+    const box = $('narration');
+    if (box.dataset.slide !== String(i)) {
+      box.dataset.slide = i;
+      box.replaceChildren(...(ui.narration[i] || []).map(t => Object.assign(document.createElement('p'), { textContent: t })));
+    }
+    [...box.children].forEach((p, n) => { p.className = n < k ? 'past' : n === k ? 'now' : 'later'; });
+    if (box.children[k] && body.classList.contains('notes-open')) box.children[k].scrollIntoView({ block: 'nearest' });
+    if (listening) speak();
     document.querySelectorAll('#grid-list button').forEach((b, n) => b.classList.toggle('current', n === i));
     if (announce) $('status').textContent = `${ui.slide} ${i + 1} ${ui.of} ${slides.length}: ${titleOf(slides[i])}`;
   }
@@ -180,6 +208,32 @@ JS = '''
     render(i !== was);
   };
   const fromHash = () => parseInt(location.hash.slice(1), 10) || 1;
+
+  const player = new Audio();
+  player.preload = 'auto';
+  let listening = false, playing = '';
+  function speak() {  // play the clip for the current build step, once
+    const src = (ui.audio[i] || [])[k], key = `${i}.${k}`;
+    if (!src) { listen(false); return; }
+    if (playing === key) return;
+    playing = key;
+    player.src = src;
+    player.play().catch(e => { if (e.name !== 'AbortError') listen(false); });  // a newer clip replaced this one
+  }
+  function listen(on = !listening) {
+    listening = on;
+    const b = $('listen-btn');
+    b.setAttribute('aria-pressed', on);
+    b.setAttribute('aria-label', on ? ui.pause : ui.listen);
+    b.title = `${on ? ui.pause : ui.listen} (P)`;
+    b.innerHTML = on ? ui.icon_pause : ui.icon_listen;
+    playing = '';
+    if (on) speak(); else player.pause();
+  }
+  player.addEventListener('ended', () => {
+    if (!listening) return;
+    if (i === slides.length - 1 && k === steps[i].length) listen(false); else next();
+  });
 
   function toggleNotes(open = !body.classList.contains('notes-open')) {
     body.classList.toggle('notes-open', open);
@@ -232,6 +286,8 @@ JS = '''
   $('grid-btn').addEventListener('click', () => toggleGrid());
   $('grid-close').addEventListener('click', () => toggleGrid(false));
   $('notes-btn').addEventListener('click', () => toggleNotes());
+  if (ui.audio.some(a => a.some(Boolean))) $('listen-btn').addEventListener('click', () => listen());
+  else $('listen-btn').hidden = true;
   if (document.fullscreenEnabled) {
     $('full-btn').addEventListener('click', toggleFull);
     document.addEventListener('fullscreenchange', () => $('full-btn').setAttribute('aria-pressed', !!document.fullscreenElement));
@@ -247,6 +303,7 @@ JS = '''
       case 'Escape': if (grid) toggleGrid(false); else if (body.classList.contains('notes-open')) toggleNotes(false); return;
       case 'g': case 'G': toggleGrid(); return;
       case 'n': case 'N': if (!grid) toggleNotes(); return;
+      case 'p': case 'P': if (!grid && !$('listen-btn').hidden) listen(); return;
       case 'f': case 'F': if (document.fullscreenEnabled) toggleFull(); return;
     }
     if (grid) return;
@@ -326,6 +383,7 @@ PAGE = '''<!doctype html>
 <span id="count" aria-hidden="true"></span>
 <button id="next" type="button" aria-label="{next}" title="{next} (→)">{icon_next}</button>
 <span class="sep"></span>
+<button id="listen-btn" type="button" aria-pressed="false" aria-label="{listen}" title="{listen} (P)">{icon_listen}</button>
 <button id="grid-btn" type="button" aria-pressed="false" aria-label="{grid}" title="{grid} (G)">{icon_grid}</button>
 <button id="notes-btn" type="button" aria-pressed="false" aria-label="{notes}" title="{notes} (N)">{icon_notes}</button>
 <button id="full-btn" type="button" aria-pressed="false" aria-label="{full}" title="{full} (F)">{icon_full}</button>
@@ -334,7 +392,8 @@ PAGE = '''<!doctype html>
 <a id="src" href="{repo_url}" aria-label="{source}" title="{source}">{icon_source}</a>
 </nav>
 <div id="progress"></div>
-<aside id="notes" aria-label="{notes}"><h2>{notes}</h2><h3 id="notes-title"></h3><p id="notes-text"></p></aside>
+<aside id="notes" aria-label="{notes}"><h2>{notes}</h2><h3 id="notes-title"></h3><div id="narration"></div>
+<details id="sources"><summary>{sources}</summary><p id="notes-text"></p></details></aside>
 <div id="grid" role="dialog" aria-modal="true" aria-labelledby="grid-title">
 <header><h1 id="grid-title">{title}</h1><p>{help}</p><button id="grid-close" type="button" aria-label="{close}" title="{close} (Esc)">{icon_close}</button></header>
 <ol id="grid-list"></ol>
@@ -355,7 +414,19 @@ def build(out):
         sections = ''.join(
             BLOB.sub(placeholder, isolate_embeds(open(os.path.join(root, 'slides', f'{sid}.html'), encoding='utf-8').read()))
             for sid in deck['order'])
-        data = json.dumps(dict(other=ui['other'], slide=ui['slide'], of=ui['of']), ensure_ascii=False)
+        narration = json.load(open(os.path.join(NARRATION, f'{lang}.json'), encoding='utf-8'))
+        audio_dir = os.path.join(NARRATION, 'audio', lang)
+        audio = []
+        for n, sid in enumerate(deck['order'], 1):
+            clips = [f'{n:02d}-{sid}-s{k}.mp3' for k in range(len(narration.get(sid, [])))]
+            audio.append([f"{ui['up']}audio/{lang}/{c}" if os.path.exists(os.path.join(audio_dir, c)) else None
+                          for c in clips])
+        if os.path.isdir(audio_dir):
+            shutil.copytree(audio_dir, os.path.join(out, 'audio', lang), dirs_exist_ok=True)
+        data = json.dumps(dict(other=ui['other'], slide=ui['slide'], of=ui['of'], listen=ui['listen'],
+                               pause=ui['pause'], icon_listen=ICONS['listen'], icon_pause=ICONS['pause'],
+                               narration=[narration.get(sid, []) for sid in deck['order']], audio=audio),
+                          ensure_ascii=False)
         page = PAGE.format(
             lang=lang, title=deck['title'], site=SITE, other_dir=UI[ui['other_lang']]['dir'], fonts=FONTS,
             css=CSS, js=JS, sections=sections, repo_url=REPO, ui_json=data.replace('</', '<\\/'),
