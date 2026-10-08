@@ -8,8 +8,8 @@ Original one-eyed agents and a small monitor robot, drawn for the AI control tal
 
 | Folder | Contents |
 |---|---|
-| `svg/on-dark/` | 82 drawings, no outline, for dark backgrounds |
-| `svg/on-light/` | the same 82 drawings with a dark ink outline, for pale backgrounds |
+| `svg/on-dark/` | 82 characters, no outline, for dark backgrounds; with the rogues and swarms below, 107 files |
+| `svg/on-light/` | the same 107 drawings with a dark ink outline, for pale backgrounds |
 | `png/on-dark/`, `png/on-light/` | 512 × 512 transparent PNGs of each SVG |
 
 All drawings sit in a 140 × 140 viewBox with a transparent background, so they line up side by side.
