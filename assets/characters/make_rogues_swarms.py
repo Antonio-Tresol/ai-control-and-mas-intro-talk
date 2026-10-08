@@ -7,15 +7,14 @@ swarms 1200 px on the long side), and rogues-and-swarms.html, a contact sheet.
 import os
 import random
 import re
-import subprocess
-import tempfile
 
 import make_characters as C
 import sys as _sys
 C.configure(_sys.argv[1] if len(_sys.argv) > 1 and _sys.argv[1] in ('classic', 'v2') else 'classic')
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+_sys.path.insert(0, os.path.join(HERE, '..', '..', 'tools'))
+from headless import svg_to_png  # noqa: E402
 RED, VOID, HOT = '#FF3B5C', '#170812', '#FFD0D8'
 CYAN, MAG = '#00E5FF', '#FF2E88'
 C.RAMPS.setdefault('crimson', ('#E2384D', '#8E1428', '#FF9AA6'))
@@ -193,13 +192,7 @@ def export_png(svg_text, png_path, w, h, longest):
     k = longest / max(w, h)
     pw, ph = round(w * k), round(h * k)
     svg = svg_text.replace('<svg ', f'<svg width="{pw}" height="{ph}" ', 1)
-    with tempfile.NamedTemporaryFile('w', suffix='.html', delete=False) as f:
-        f.write(f'<!doctype html><html><body style="margin:0;background:transparent">{svg}</body></html>')
-        page = f.name
-    subprocess.run([CHROME, '--headless=new', '--disable-gpu', '--hide-scrollbars', f'--window-size={pw},{ph}',
-                    '--default-background-color=00000000', f'--screenshot={png_path}', 'file://' + page],
-                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
-    os.unlink(page)
+    svg_to_png(svg, png_path, pw, ph)
 
 
 def main():

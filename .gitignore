@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 talks/ai-control-intro/slides/preview-*.html
 talks/ai-control-intro/build/out/
+talks/ai-control-intro/slides/screenshots/
+_site/

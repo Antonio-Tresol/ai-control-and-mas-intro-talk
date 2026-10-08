@@ -13,7 +13,7 @@ The icons: the untrusted model U, an attacking agent, the trusted monitor T (len
 
 The more cartoon-like agents in many colours and shapes, and the small monitor robot, are in `../characters/`.
 
-Rebuild everything (needs headless Google Chrome for the PNGs):
+Rebuild everything (needs Chrome, Chromium or Edge for the PNGs, found by `tools/headless.py`):
 
 ```bash
 python3 make_icons.py

@@ -2,28 +2,27 @@
 
 Draws each glyph from the deck's generator (talks/ai-control-intro/build/glyphs.py) into its own
 SVG, in the dark look (svg/on-dark) and the light look with ink outlines (svg/on-light), then
-exports 512 px transparent PNGs (longest side 512) with headless Chrome into png/.
+exports 512 px transparent PNGs (longest side 512) with headless Chrome, Chromium or Edge into png/.
 Run: python3 make_icons.py
 """
 import os
 import re
-import subprocess
 import sys
-import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..'))
 sys.path.insert(0, os.path.join(ROOT, 'talks', 'ai-control-intro', 'build'))
 sys.path.insert(0, os.path.join(ROOT, 'assets', 'characters'))
+sys.path.insert(0, os.path.join(ROOT, 'tools'))
 import glyphs as G  # noqa: E402
 import make_characters as C  # noqa: E402
+from headless import svg_to_png  # noqa: E402
 
 G.SKETCH_DEFAULT = False
 STYLE = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] in ('classic', 'v2') else 'classic'
 G.set_style(STYLE)
 C.configure(STYLE)
 OUT = os.path.join(HERE, 'v2') if STYLE == 'v2' else HERE  # python3 make_icons.py v2
-CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 
 
 def sandbox_breach(s, x=14, y=14, w=192, h=152, g0=62, g1=118):
@@ -108,13 +107,7 @@ def export_png(svg_path, png_path, w, h):
     svg = open(svg_path).read()
     svg = re.sub(r'<svg ([^>]*?)width="\d+" height="\d+"', r'<svg \1', svg, count=1)
     svg = svg.replace('<svg ', f'<svg width="{pw}" height="{ph}" ', 1)
-    with tempfile.NamedTemporaryFile('w', suffix='.html', delete=False) as f:
-        f.write(f'<!doctype html><html><body style="margin:0;background:transparent">{svg}</body></html>')
-        page = f.name
-    subprocess.run([CHROME, '--headless=new', '--disable-gpu', '--hide-scrollbars', f'--window-size={pw},{ph}',
-                    '--default-background-color=00000000', f'--screenshot={png_path}', 'file://' + page],
-                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
-    os.unlink(page)
+    svg_to_png(svg, png_path, pw, ph)
 
 
 def main():

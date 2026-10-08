@@ -37,7 +37,7 @@ Rebuild them with `python3 make_rogues_swarms.py` (it also exports their PNGs). 
 python3 make_characters.py
 ```
 
-Then re-export the PNGs (uses headless Google Chrome):
+Then re-export the PNGs (uses headless Chrome, Chromium or Edge through `tools/headless.py`; set `CHROME` to pick one):
 
 ```bash
 python3 export_png.py

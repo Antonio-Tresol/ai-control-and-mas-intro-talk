@@ -52,6 +52,7 @@ Each drawing comes as SVG and as a 512 px PNG, in an on-dark version and an outl
 | `talks/ai-control-intro/specimen.html` | The first build of the deck, written by `build/gen.py` |
 | `talks/ai-control-intro/es/GLOSARIO.md` | Terms and style rules for the Spanish version |
 | `assets/characters/`, `assets/icons/` | The character pack and the deck's icons, as SVG and PNG, with their generators |
+| `tools/headless.py` | Finds headless Chrome, Chromium or Edge on any OS and takes screenshots, for `screenshots.py` and the asset generators |
 | `docs/images/` | The images in this README |
 
 The slides use the format of a Claude Slides artifact: a fixed 1920×1080 canvas, inline styles only, with the Outfit and JetBrains Mono fonts from Google Fonts.
@@ -61,16 +62,16 @@ The slides use the format of a Claude Slides artifact: a fixed 1920×1080 canvas
 ```bash
 cd talks/ai-control-intro/slides
 python3 preview.py en
-open preview-en.html
 ```
 
-`preview-en.html?solo=N` shows slide N alone at 1920×1080. The slide images in `docs/images/slides/` are headless Chrome screenshots of that view:
+Open `preview-en.html` in a browser; `preview-en.html?solo=N` shows slide N alone at 1920×1080. To save slides as PNGs, as for the images in this README:
 
 ```bash
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars \
-  --window-size=1920,1080 --virtual-time-budget=6000 \
-  --screenshot=slide-01.png "file://$PWD/preview-en.html?solo=1"
+python3 screenshots.py en          # every slide
+python3 screenshots.py es 1 4 7    # only these slides
 ```
+
+The PNGs land in `screenshots/`. The script finds Chrome, Chromium or Edge on macOS, Linux or Windows; if it finds none, set `CHROME` to the browser's path. The asset generators in `assets/` use the same helper, `tools/headless.py`.
 
 ## Rebuilding
 
